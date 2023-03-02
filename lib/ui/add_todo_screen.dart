@@ -9,10 +9,11 @@ class AddTodoScreen extends StatelessWidget {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final DatabaseHelper dbHelper = DatabaseHelper(dbInstance);
+  final TodoValidator validator = TodoValidator();
 
   bool validateForm(String title, String description) {
-    return TodoValidator.isValidTitle(title) &&
-        TodoValidator.isValidDescription(description);
+    return validator.isValidTitle(title) &&
+        validator.isValidDescription(description);
   }
 
   void onAddButtonClicked(BuildContext context) {
