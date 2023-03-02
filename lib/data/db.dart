@@ -40,6 +40,8 @@ class Database {
   }
 
   void updateById(int id, TodoItem record) {
-    _todos.replaceRange(id, id, Iterable.generate(1, (e) => record));
+    _todos
+      ..removeAt(id - 1)
+      ..insert(id - 1, record);
   }
 }

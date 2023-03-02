@@ -29,6 +29,16 @@ class DatabaseHelper {
     _db.updateById(id, record);
   }
 
+  void markInComplete(int id) {
+    final record = _db.findById(id);
+    if (record == null) {
+      throw NotFoundException("Record not found for passed id");
+    }
+
+    record.completed = false;
+    _db.updateById(id, record);
+  }
+
   int recordsCount() {
     return _db.getCount();
   }

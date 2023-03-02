@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<TodoItem> todos = [];
+  final dbHelper = DatabaseHelper(dbInstance);
 
   void onReturn(dynamic value) {
     setState(() {});
@@ -24,12 +25,26 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (c) => AddTodoScreen()))
           .then(onReturn);
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Something went wrong")));
     }
   }
 
-  void addTodoItem() {}
+  void onTodoItemChecked(bool isChecked, int id) {
+    try {
+      if (isChecked) {
+        dbHelper.markCompleted(id);
+      } else {
+        dbHelper.markInComplete(id);
+      }
 
-  void onTodoItemChecked(bool isChecked, int id) {}
+      setState(() {});
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Failed to update item $e")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,28 +55,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buildTodoItem(TodoItem item, Function(bool, int) onCheckChanged) {
-    return Row(
-      children: [
-        Checkbox(
-          value: item.completed,
-          onChanged: (e) => onCheckChanged(e ?? false, item.id),
-        ),
-        Text(item.title)
-      ],
+  Widget buildTodoItemTitle(TodoItem item) {
+    if (item.completed) {
+      return Text(
+        item.title,
+        style: const TextStyle(decoration: TextDecoration.lineThrough),
+      );
+    } else {
+      return Text(item.title);
+    }
+  }
+
+  Widget buildTodoItem(TodoItem item) {
+    return InkWell(
+      onTap: () => onTodoItemChecked(!item.completed, item.id),
+      child: Row(
+        key: ValueKey("todo-item-${item.id}"),
+        children: [
+          Checkbox(
+            value: item.completed,
+            onChanged: (e) => onTodoItemChecked(!item.completed, item.id),
+          ),
+          buildTodoItemTitle(item)
+        ],
+      ),
     );
   }
 
   Widget buildBody() {
-    final dbHelper = DatabaseHelper(dbInstance);
-
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
       itemCount: dbHelper.recordsCount(),
-      itemBuilder: (c, i) => buildTodoItem(
-        dbHelper.recordAt(i)!,
-        onTodoItemChecked,
-      ),
+      itemBuilder: (c, i) => buildTodoItem(dbHelper.recordAt(i)!),
     );
   }
 
