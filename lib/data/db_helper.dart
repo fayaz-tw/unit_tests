@@ -46,4 +46,8 @@ class DatabaseHelper {
   TodoItem? recordAt(int index) {
     return _db.findByIndex(index);
   }
+
+  void clear() {
+    _db.truncate();
+  }
 }
