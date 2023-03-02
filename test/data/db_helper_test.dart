@@ -29,6 +29,9 @@ void testAddTodoItem() {
       );
 
       expect(helper.recordsCount(), 1);
+
+      expect(helper.recordAt(0), isNotNull);
+      expect(helper.recordAt(0)!.completed, isFalse);
     });
 
     test("add todo item with invalid due date", () {
