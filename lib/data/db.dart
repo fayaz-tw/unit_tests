@@ -1,7 +1,7 @@
 import 'package:unit_tests/model/TodoItem.dart';
 
 class Database {
-  static final List<TodoItem> _todos = [];
+  final List<TodoItem> _todos = [];
 
   int getCount() {
     return _todos.length;

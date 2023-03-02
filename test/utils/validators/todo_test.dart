@@ -12,21 +12,21 @@ void addTitleTests() {
     setUp(() => {todoValidator = TodoValidator()});
 
     test("Test with empty title",
-        () => {expect(false, todoValidator?.isValidTitle(""))});
+        () => {expect(todoValidator?.isValidTitle(""), false)});
 
     test("Test with title length <= 3 - t1",
-        () => {expect(false, todoValidator?.isValidTitle("he"))});
+        () => {expect(todoValidator?.isValidTitle("he"), false)});
 
     test("Test with title length <= 3 - t2",
-        () => {expect(false, todoValidator?.isValidTitle("hey"))});
+        () => {expect(todoValidator?.isValidTitle("hey"), false)});
 
     test(
       "Test with title length > 50",
       () => {
         expect(
-          false,
           todoValidator
               ?.isValidTitle(List.generate(50, (index) => "s").join("")),
+          false,
         )
       },
     );
@@ -35,9 +35,9 @@ void addTitleTests() {
       "Test with a valid title length",
       () => {
         expect(
-          true,
           todoValidator
               ?.isValidTitle(List.generate(10, (index) => "s").join("")),
+          true,
         )
       },
     );
@@ -53,21 +53,21 @@ void addDescriptionTests() {
     setUp(() => {todoValidator = TodoValidator()});
 
     test("Test with empty description",
-        () => {expect(false, todoValidator?.isValidDescription(""))});
+        () => {expect(todoValidator?.isValidDescription(""), false)});
 
     test("Test with description length <= 3 - t1",
-        () => {expect(false, todoValidator?.isValidDescription("he"))});
+        () => {expect(todoValidator?.isValidDescription("he"), false)});
 
     test("Test with description length <= 3 - t2",
-        () => {expect(false, todoValidator?.isValidDescription("hey"))});
+        () => {expect(todoValidator?.isValidDescription("hey"), false)});
 
     test(
       "Test with description length > 50",
       () => {
         expect(
-          true,
           todoValidator
               ?.isValidDescription(List.generate(50, (index) => "s").join("")),
+          true,
         )
       },
     );
@@ -76,42 +76,42 @@ void addDescriptionTests() {
       "Test with a valid description length - 10",
       () => {
         expect(
-          true,
           todoValidator
               ?.isValidDescription(List.generate(10, (index) => "s").join("")),
+          true,
         )
       },
     );
 
     test(
       "Test with a valid description length - 512",
-          () => {
+      () => {
         expect(
-          true,
           todoValidator
               ?.isValidDescription(List.generate(512, (index) => "s").join("")),
+          true,
         )
       },
     );
 
     test(
       "Test with a valid description length - 1000",
-          () => {
+      () => {
         expect(
+          todoValidator?.isValidDescription(
+              List.generate(1000, (index) => "s").join("")),
           true,
-          todoValidator
-              ?.isValidDescription(List.generate(1000, (index) => "s").join("")),
         )
       },
     );
 
     test(
       "Test with a valid description length - 1023",
-          () => {
+      () => {
         expect(
+          todoValidator?.isValidDescription(
+              List.generate(1023, (index) => "s").join("")),
           true,
-          todoValidator
-              ?.isValidDescription(List.generate(1023, (index) => "s").join("")),
         )
       },
     );
