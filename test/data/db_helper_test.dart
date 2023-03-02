@@ -30,7 +30,11 @@ void testAddTodoItem() {
       expect(helper.recordsCount(), 1);
 
       expect(helper.recordAt(0), isNotNull);
-      expect(helper.recordAt(0)!.completed, isFalse);
+
+      final firstRecord = helper.recordAt(0);
+      expect(firstRecord!.completed, isFalse);
+      expect(firstRecord.title, equals("Initiate Project"));
+      expect(firstRecord.description, equals("Need to start a new project"));
     });
 
     test("add todo item with invalid due date", () {
@@ -38,22 +42,20 @@ void testAddTodoItem() {
       final dueTomorrow = DateTime.now().add(const Duration(days: -1));
 
       expect(
-            () =>
-            helper.add(
-              "Initiate Project",
-              "Need to start a new project",
-              dueTomorrow.millisecondsSinceEpoch,
-            ),
+        () => helper.add(
+          "Initiate Project",
+          "Need to start a new project",
+          dueTomorrow.millisecondsSinceEpoch,
+        ),
         throwsException,
       );
 
       expect(
-            () =>
-            helper.add(
-              "Initiate Project",
-              "Need to start a new project",
-              dueTomorrow.millisecondsSinceEpoch,
-            ),
+        () => helper.add(
+          "Initiate Project",
+          "Need to start a new project",
+          dueTomorrow.millisecondsSinceEpoch,
+        ),
         throwsA(isA<IllegalArgumentException>()),
       );
 
