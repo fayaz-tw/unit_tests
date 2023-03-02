@@ -3,7 +3,7 @@ class TodoItem {
   final String title;
   final String description;
   final int dueOn;
-  final bool completed;
+  bool completed;
 
   TodoItem(this.title, this.description, this.dueOn, this.completed, this.id);
 }
